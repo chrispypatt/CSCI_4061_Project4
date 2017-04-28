@@ -22,7 +22,6 @@
 #define MAX_THREADS 100
 #define MAX_QUEUE_SIZE 100
 #define MAX_REQUEST_LENGTH 1024
-char *content_types[4] = {"text/html", "image/jpeg", "image/gif", "text/plain"};
 
 //Structure for a single request.
 typedef struct request
@@ -127,17 +126,17 @@ void * worker(void * arg)
     char *file_type;
     //determine content type
     type = strchr(request.m_szRequest, '.');
-    if (type == content_types[0]){
-      file_type = content_types[0];
+    if ((strncmp(type, ".html",5)==0)|| (strncmp(type, ".htm",4)==0)){
+      file_type = "text/html\0";
     }
-    else if (type == content_types[1]){
-      file_type = content_types[1];
+    else if (strncmp(type, ".jpg",5)==0){
+      file_type = "image/jpeg\0";
     }
-    else if (type == content_types[2]){
-      file_type = content_types[2];
+    else if (strncmp(type, ".gif",5)==0){
+      file_type = "image/gif\0";
     }
     else {
-      file_type = content_types[3];
+      file_type = "text/plain\0";
     }
 
     //return requested content to client
